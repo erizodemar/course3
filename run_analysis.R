@@ -8,6 +8,7 @@ activities <- read.table("UCI HAR Dataset/activity_labels.txt", col.names=c("aid
 
 # add descriptive variable names from features variable while reading data
 # merge test and train data into new variables
+
 d_merged <- rbind(read.table("UCI HAR Dataset/test/x_test.txt",col.names = features$V2),
                   read.table("UCI HAR Dataset/train/x_train.txt", col.names = features$V2))
 s_merged <- rbind(read.table("UCI HAR Dataset/test/subject_test.txt", col.names = c("Subject")),
@@ -33,13 +34,14 @@ d_merged <- subset(d_merged,select=-c(aid))
 result <- aggregate(d_merged[,2:80], c(d_merged["Subject"], d_merged["Activity"]), 
                     function(x) mean(x,na.rm=T))
 
+
 # remove everything except result
 rm("s_merged")
 rm("y_merged")
 rm("d_merged")
 rm("features")
-rm("filtered_features")
 rm("activities")
+#rm("filtered_features")
 
-# write the table in csv (so to read it back you can read.csv("output.csv"))
-write.table(result, "output.csv", sep=",")
+# write the table in txt
+write.table(result, "output.txt", sep=",", row.names=FALSE)
